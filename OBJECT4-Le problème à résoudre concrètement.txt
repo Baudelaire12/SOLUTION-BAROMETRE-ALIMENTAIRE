@@ -1,0 +1,40 @@
+Le problème à résoudre concrètement
+
+Le mémoire produit trois choses : (1) un modèle qui prédit le risque d'un ménage, (2) une cartographie du risque par commune, (3) des déterminants interprétables (SHAP). L'outil doit rendre ces trois livrables utilisables par quelqu'un qui n'est pas statisticien — typiquement un agent du PAM, d'une ONG, ou du ministère qui doit décider où et chez qui intervenir.
+
+Modules possibles (à prioriser ensemble)
+
+1. Carte interactive du risque (le cœur de l'outil)
+
+Carte choroplèthe du Bénin, communes colorées par niveau de risque (Faible/Modéré/Élevé/Très élevé, seuils de Jenks)
+Clic sur une commune → popup avec stats (P̄ moyenne, nombre de ménages enquêtés, département, comparaison à la moyenne nationale)
+Filtres : par département, par seuil de risque, par milieu (urbain/rural)
+Toggle pour visualiser la significativité de l'autocorrélation spatiale (zones de clusters Moran)
+
+2. Scoring d'un ménage individuel ("simulateur")
+
+Formulaire avec les ~26 variables (âge, éducation, revenu, accès à l'eau, etc.)
+Bouton "Calculer le risque" → probabilité prédite + classe (sécurité/insécurité)
+Waterfall plot SHAP : "pourquoi CE ménage est classé ainsi" — très parlant pour un agent de terrain
+Utile pour un agent qui visite un ménage et veut évaluer son éligibilité à une aide
+
+3. Scoring par lot (batch)
+
+Upload d'un fichier CSV/Excel avec une liste de ménages (nouvelle collecte, ou EHCVM future)
+L'outil applique le modèle à tous, renvoie un fichier enrichi avec probabilités + classes
+Cas d'usage : une ONG a fait sa propre enquête sur 500 ménages et veut les prioriser
+
+4. Tableau de bord national/comparatif
+
+KPIs : % ménages à risque au niveau national, classement des départements/communes les plus vulnérables
+Graphiques : distribution du risque par département, top 10 communes prioritaires
+Vue "aide à l'allocation" : si on a un budget pour X ménages, lesquels/où cibler en premier
+
+5. Explicabilité globale (transparence méthodologique)
+
+Page "Déterminants" : summary plot SHAP global, qui montre quelles variables comptent le plus au niveau national
+Utile pour justifier des politiques publiques structurelles (pas juste du ciblage individuel)
+
+6. Export / rapport
+
+Génération d'un PDF/rapport par commune ou département (carte + stats + recommandations) téléchargeable pour les décideurs qui n'utiliseront jamais l'interface web eux-mêmes

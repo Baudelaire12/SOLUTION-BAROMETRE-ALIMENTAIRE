@@ -1,0 +1,23 @@
+variable,test,statistique,p_value,effet,p_adj_FDR,conclusion
+log_depenses_alim,Mann-Whitney,6454471.5,6.866801154478725e-117,med0=9.99 / med1=9.29,1.5106962539853194e-115,association significative
+electricite,Chi2,428.24604461563376,3.91415548915443e-95,CramerV=0.169,2.8703806920465825e-94,association significative
+departement,Chi2,476.83299884604224,2.7824448432878814e-95,CramerV=0.179,2.8703806920465825e-94,association significative
+indice_logement,Mann-Whitney,7311971.0,1.869304824640458e-83,med0=3.00 / med1=2.00,1.0281176535522517e-82,association significative
+instruction_cm,Chi2,226.06205718648053,8.151696429587476e-50,CramerV=0.123,3.5867464290184896e-49,association significative
+rural,Chi2,197.2273586842232,8.412109989832626e-45,CramerV=0.115,3.0844403296052964e-44,association significative
+log_revenu,Mann-Whitney,8119697.0,2.6896729037109836e-36,med0=9.63 / med1=5.70,8.453257697377378e-36,association significative
+activite_principale,Chi2,162.170785847718,3.4107350649618984e-33,CramerV=0.104,9.379521428645221e-33,association significative
+type_choc,Chi2,121.67024194744803,2.3489721622554233e-25,CramerV=0.090,5.741931952179923e-25,association significative
+eau_amelioree,Chi2,102.82199158595233,3.666566838334847e-24,CramerV=0.083,8.066447044336665e-24,association significative
+choc_subi,Chi2,95.34073801193856,1.602806526840181e-22,CramerV=0.080,3.205613053680362e-22,association significative
+assistance_recue,Chi2,68.57295824195026,1.2226930128085355e-16,CramerV=0.068,2.2416038568156483e-16,association significative
+diversification_revenus,Mann-Whitney,8942949.0,9.938365449855891e-16,med0=2.00 / med1=1.00,1.6818772299756123e-15,association significative
+mois_couverture_stocks,Mann-Whitney,10978711.0,6.269584504888452e-10,med0=0.00 / med1=2.00,9.852204221967568e-10,association significative
+ratio_dependance,Mann-Whitney,10953540.5,6.766952263981498e-08,med0=1.00 / med1=1.00,9.924863320506197e-08,association significative
+sexe_cm,Chi2,19.47607547777061,1.0186762204754943e-05,CramerV=0.036,1.4006798031538046e-05,association significative
+securite_fonciere,Chi2,15.33370869210192,9.009447563560493e-05,CramerV=0.032,0.00011659285082254756,association significative
+age_cm,Mann-Whitney,10613702.0,0.0012192319375145743,med0=45.00 / med1=45.00,0.0014901723680733686,association significative
+semences_ameliorees,Chi2,9.36807428297624,0.002207973632892639,CramerV=0.025,0.0025566010486125293,association significative
+taille_menage,Mann-Whitney,9667365.5,0.006037087829587018,med0=6.00 / med1=6.00,0.00664079661254572,association significative
+tlu,Mann-Whitney,10044669.5,0.6771372181840107,med0=0.00 / med1=0.00,0.7093818476213446,ns
+credit,Chi2,0.013288155553186883,0.9082277380428954,CramerV=0.001,0.9082277380428954,ns

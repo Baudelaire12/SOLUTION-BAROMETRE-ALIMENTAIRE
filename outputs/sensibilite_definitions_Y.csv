@@ -1,0 +1,4 @@
+Définition Y,Prévalence (%),AUROC Logit,AUROC XGBoost,Hiérarchie ML>=Logit
+"Référence {3,4}",10.0455,0.769,0.7939,oui
+Strict {4},0.8293,0.8313,0.8138,NON
+"Élargi {2,3,4}",53.1969,0.7493,0.771,oui

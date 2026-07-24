@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Aide à la décision — Insécurité alimentaire au Bénin</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="logo">🌾</span>
+    <div>
+      <div class="brand-title">Insécurité alimentaire — Aide à la décision</div>
+      <div class="brand-sub">Bénin · AGVSAN 2017 · modèle XGBoost recalibré</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <a data-page="accueil" class="active">Accueil</a>
+    <a data-page="predire">Prédiction</a>
+    <a data-page="lot">Par lot</a>
+    <a data-page="carte">Cartographie</a>
+    <a data-page="ciblage">Ciblage &amp; simulation</a>
+    <a data-page="apropos">À propos</a>
+  </nav>
+</header>
+
+<main>
+  <!-- ACCUEIL -->
+  <section id="accueil" class="page active">
+    <h1>Outil d'aide à la décision</h1>
+    <p class="lead">Prédire le risque d'insécurité alimentaire d'un ménage et cibler les
+       zones vulnérables, à partir d'un modèle prédictif calibré.</p>
+    <div class="kpis" id="kpis"></div>
+    <div class="cards">
+      <div class="card" data-goto="predire"><h3>👤 Prédiction individuelle</h3>
+        <p>Saisir les <b>déterminants (OS1)</b> d'un ménage → probabilité de risque, classe et
+           explication SHAP des facteurs.</p></div>
+      <div class="card" data-goto="lot"><h3>📂 Prédiction par lot</h3>
+        <p>Charger un CSV de ménages → scores, statistiques et export pour le ciblage terrain.</p></div>
+      <div class="card" data-goto="carte"><h3>🗺️ Cartographie</h3>
+        <p>Carte communale interactive du risque prédit et communes prioritaires (OS3).</p></div>
+      <div class="card" data-goto="ciblage"><h3>🎯 Ciblage &amp; simulation</h3>
+        <p>Ajuster un seuil de ciblage et simuler l'effet d'une intervention (« what-if »).</p></div>
+    </div>
+    <div class="note">⚠️ Outil d'aide à la décision : les prédictions appuient le jugement des
+       acteurs de terrain, elles ne s'y substituent pas.</div>
+  </section>
+
+  <!-- PREDICTION INDIVIDUELLE -->
+  <section id="predire" class="page">
+    <h1>👤 Prédiction pour un ménage</h1>
+    <p class="lead">Les champs de saisie sont les <b>déterminants significatifs</b> identifiés en
+       OS1 (odds ratios). Chaque badge indique l'effet estimé sur la cote de risque.</p>
+    <div class="split">
+      <div>
+        <div id="form-groups"></div>
+        <button id="btn-predict" class="primary">🔎 Évaluer le risque</button>
+      </div>
+      <aside id="result" class="result hidden">
+        <div class="risk-card" id="risk-card">
+          <div class="risk-label">Probabilité d'insécurité alimentaire</div>
+          <div class="risk-val" id="risk-val">—</div>
+          <div class="risk-cls" id="risk-cls">—</div>
+        </div>
+        <h3>Facteurs déterminants (SHAP)</h3>
+        <canvas id="shap-chart" height="230"></canvas>
+        <p class="hint">Rouge = augmente le risque · Bleu = réduit le risque, pour ce ménage.</p>
+      </aside>
+    </div>
+  </section>
+
+  <!-- PAR LOT -->
+  <section id="lot" class="page">
+    <h1>📂 Prédiction par lot</h1>
+    <p class="lead">Chargez un CSV de ménages (colonnes = variables du modèle ; les colonnes
+       manquantes prennent la valeur médiane).</p>
+    <div class="row">
+      <button id="btn-template" class="ghost">⬇️ Gabarit CSV</button>
+      <input type="file" id="file-batch" accept=".csv"/>
+    </div>
+    <div id="batch-summary" class="kpis"></div>
+    <div id="batch-target" class="hidden">
+      <label>Seuil de ciblage : <b id="seuil-val">50 %</b></label>
+      <input type="range" id="seuil" min="0" max="100" value="50"/>
+      <div id="seuil-info" class="note"></div>
+      <button id="btn-dl-batch" class="ghost">⬇️ Télécharger les résultats</button>
+    </div>
+    <div class="tablewrap"><table id="batch-table"></table></div>
+  </section>
+
+  <!-- CARTE -->
+  <section id="carte" class="page">
+    <h1>🗺️ Cartographie communale du risque</h1>
+    <div class="split-map">
+      <div id="map"></div>
+      <aside>
+        <h3>Communes prioritaires</h3>
+        <div class="tablewrap"><table id="top-communes"></table></div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- CIBLAGE & SIMULATION -->
+  <section id="ciblage" class="page">
+    <h1>🎯 Ciblage et simulation d'intervention</h1>
+    <h3>Simulation « what-if » sur un ménage vulnérable type</h3>
+    <p class="lead">Cochez des interventions et observez l'effet sur le risque prédit.</p>
+    <div class="row" id="sim-toggles">
+      <label><input type="checkbox" data-sim="elec"> ⚡ Électrification</label>
+      <label><input type="checkbox" data-sim="eau"> 💧 Eau &amp; assainissement</label>
+      <label><input type="checkbox" data-sim="revenu"> 💰 Appui au revenu (×2)</label>
+      <label><input type="checkbox" data-sim="instr"> 🎓 Scolarisation / formation</label>
+    </div>
+    <div class="kpis" id="sim-kpis"></div>
+    <hr>
+    <h3>Arbitrage du ciblage communal</h3>
+    <label>Seuil de risque communal : <b id="cseuil-val">14 %</b></label>
+    <input type="range" id="cseuil" min="0" max="45" value="14"/>
+    <div class="kpis" id="ciblage-kpis"></div>
+    <div class="tablewrap"><table id="ciblage-table"></table></div>
+  </section>
+
+  <!-- A PROPOS -->
+  <section id="apropos" class="page">
+    <h1>ℹ️ À propos</h1>
+    <div id="apropos-content"></div>
+    <h3>Déterminants du risque (OS1)</h3>
+    <div class="tablewrap"><table id="det-table"></table></div>
+  </section>
+</main>
+
+<footer>Baromètre Alimentaire · Solution d'aide à la décision · Conçue par Pinel Baudelaire DAHOUI ·
+  Modèle prédictif calibré sur les données AGVSAN 2017</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

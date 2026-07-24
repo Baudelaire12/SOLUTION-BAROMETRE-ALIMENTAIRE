@@ -1,0 +1,11 @@
+webapp
+outputs
+*.ipynb
+*.pdf
+*.tex
+*.dta
+*.xlsx
+__pycache__
+app/data.db
+app/.auth_secret
+.git

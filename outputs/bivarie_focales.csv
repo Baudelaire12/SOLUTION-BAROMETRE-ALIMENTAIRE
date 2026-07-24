@@ -1,0 +1,6 @@
+variable,test,statistique,p_value
+Taille du ménage,Mann-Whitney,9667365.5,0.006037087829587018
+ln(revenu+1),Mann-Whitney,8119697.0,2.6896729037109836e-36
+Âge du chef de ménage,Mann-Whitney,10613702.0,0.0012192319375145743
+Niveau d'instruction (3 niveaux),Chi2,226.0620571864805,8.151696429587592e-50
+Accès au crédit,Chi2,0.013288155553186881,0.9082277380428954

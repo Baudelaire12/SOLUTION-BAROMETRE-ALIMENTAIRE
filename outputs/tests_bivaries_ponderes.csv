@@ -1,0 +1,23 @@
+variable,nature,test_pondere,p_non_pondere,p_pondere,detail,concordance_5pct
+indice_logement,continue,comparaison de moyennes (Taylor),1.869304824640458e-83,0.0,moy0=2.36 / moy1=1.83,identique
+log_depenses_alim,continue,comparaison de moyennes (Taylor),6.866801154478725e-117,0.0,moy0=9.82 / moy1=8.56,identique
+electricite,binaire,comparaison de proportions (Taylor),3.91415548915443e-95,0.0,prop0=44.4% / prop1=15.3%,identique
+rural,binaire,comparaison de proportions (Taylor),8.412109989832626e-45,0.0,prop0=48.8% / prop1=68.4%,identique
+departement,polytomique,χ² repondéré (fallback),2.7824448432878814e-95,7.432054818962862e-91,,identique
+instruction_cm,polytomique,χ² repondéré (fallback),8.151696429587476e-50,9.848570978276534e-60,,identique
+activite_principale,polytomique,χ² repondéré (fallback),3.4107350649618984e-33,6.99045088795532e-36,,identique
+type_choc,polytomique,χ² repondéré (fallback),2.3489721622554233e-25,3.1829971043592057e-25,,identique
+log_revenu,continue,comparaison de moyennes (Taylor),2.6896729037109836e-36,1.0948131290433594e-10,moy0=8.37 / moy1=7.46,identique
+tlu,continue,comparaison de moyennes (Taylor),0.6771372181840107,4.4083736661093553e-10,moy0=1.61 / moy1=0.68,DIVERGENTE
+choc_subi,binaire,comparaison de proportions (Taylor),1.602806526840181e-22,7.683869096553053e-10,prop0=44.1% / prop1=57.2%,identique
+eau_amelioree,binaire,comparaison de proportions (Taylor),3.666566838334847e-24,3.5361404915335015e-09,prop0=75.7% / prop1=62.6%,identique
+assistance_recue,binaire,comparaison de proportions (Taylor),1.2226930128085355e-16,5.395093038984555e-08,prop0=7.1% / prop1=13.7%,identique
+diversification_revenus,continue,comparaison de moyennes (Taylor),9.938365449855891e-16,8.506065174440636e-07,moy0=1.69 / moy1=1.56,identique
+mois_couverture_stocks,continue,comparaison de moyennes (Taylor),6.269584504888452e-10,2.9197920645707143e-06,moy0=2.90 / moy1=3.68,identique
+ratio_dependance,continue,comparaison de moyennes (Taylor),6.766952263981498e-08,4.314688582995885e-05,moy0=1.27 / moy1=1.43,identique
+age_cm,continue,comparaison de moyennes (Taylor),0.0012192319375145743,0.00016232048390918408,moy0=46.76 / moy1=48.57,identique
+sexe_cm,binaire,comparaison de proportions (Taylor),1.0186762204754943e-05,0.000471074043220554,prop0=78.8% / prop1=73.7%,identique
+securite_fonciere,binaire,comparaison de proportions (Taylor),9.009447563560493e-05,0.0005923666826357366,prop0=28.8% / prop1=35.1%,identique
+semences_ameliorees,binaire,comparaison de proportions (Taylor),0.002207973632892639,0.01339051517636225,prop0=3.0% / prop1=1.9%,identique
+taille_menage,continue,comparaison de moyennes (Taylor),0.006037087829587018,0.15870959040339905,moy0=6.52 / moy1=6.32,DIVERGENTE
+credit,binaire,comparaison de proportions (Taylor),0.9082277380428954,0.9723596845183293,prop0=26.3% / prop1=26.2%,identique

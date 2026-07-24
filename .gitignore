@@ -1,0 +1,28 @@
+# ===== Données volumineuses / sensibles (JAMAIS versionnées) =====
+*.dta                      # AGVSAN 2017 brut (132 Mo)
+app/data.db
+app/users.db
+app/.auth_secret
+**/.env*.local
+
+# ===== Python =====
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# ===== Node / Next.js =====
+node_modules/
+.next/
+*.tsbuildinfo
+npm-debug.log*
+
+# ===== Système / divers =====
+.DS_Store
+Thumbs.db
+*.tmp
+
+# crash dumps
+*.stackdump
+"AGVSA_BENIN_2017_MENAGE_RawData.dta" 

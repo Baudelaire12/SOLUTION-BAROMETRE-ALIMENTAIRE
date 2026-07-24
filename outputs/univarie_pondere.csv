@@ -1,0 +1,9 @@
+variable,paramètre,estimation,IC_bas,IC_haut
+Insécurité alimentaire (Y=1),proportion (%),9.656,8.984,10.373
+Accès à l'électricité,proportion (%),41.62,39.491,43.78
+Eau améliorée,proportion (%),74.463,72.54,76.296
+Accès au crédit,proportion (%),26.263,24.927,27.643
+Résidence rurale,proportion (%),50.696,49.221,52.17
+Taille du ménage,moyenne,6.504,6.404,6.603
+Âge du chef de ménage,moyenne,46.937,46.581,47.293
+ln(revenu+1),moyenne,8.285,8.148,8.422

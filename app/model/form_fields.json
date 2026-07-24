@@ -1,0 +1,348 @@
+[
+  {
+    "capital": "Capital humain",
+    "icon": "👥",
+    "fields": [
+      {
+        "key": "taille_menage",
+        "feature": "taille_menage",
+        "label": "Taille du ménage",
+        "type": "number",
+        "min": 1,
+        "max": 40,
+        "default": 6,
+        "or": 1.031,
+        "p": 0.0036
+      },
+      {
+        "key": "instruction_cm",
+        "feature": "instruction_cm",
+        "label": "Niveau d'instruction du chef",
+        "type": "select",
+        "options": [
+          [
+            0,
+            "Aucun / informel"
+          ],
+          [
+            1,
+            "Primaire"
+          ],
+          [
+            2,
+            "Secondaire et +"
+          ]
+        ],
+        "default": 0,
+        "or": 0.831,
+        "p": 0.007
+      },
+      {
+        "key": "taux_scolarisation",
+        "feature": "taux_scolarisation",
+        "label": "Taux de scolarisation des enfants",
+        "type": "slider",
+        "min": 0,
+        "max": 1,
+        "step": 0.1,
+        "default": 1,
+        "or": 0.618,
+        "p": 0.0094
+      },
+      {
+        "key": "statut_matrimonial",
+        "cat": "statut_matrimonial",
+        "label": "Statut matrimonial du chef",
+        "type": "select_cat",
+        "options": [
+          [
+            "1",
+            "Marié(e) monogame"
+          ],
+          [
+            "2",
+            "Marié(e) polygame"
+          ],
+          [
+            "3",
+            "Célibataire"
+          ],
+          [
+            "4",
+            "Divorcé(e)"
+          ],
+          [
+            "5",
+            "Veuf(ve)"
+          ],
+          [
+            "6",
+            "Union libre"
+          ]
+        ],
+        "default": "1",
+        "or_note": "Union libre : OR 0,33",
+        "or": 0.334,
+        "p": 0.0128
+      }
+    ]
+  },
+  {
+    "capital": "Capital physique",
+    "icon": "🏠",
+    "fields": [
+      {
+        "key": "departement",
+        "cat": "departement",
+        "label": "Département",
+        "type": "select_cat",
+        "options": [
+          [
+            "1",
+            "Alibori"
+          ],
+          [
+            "2",
+            "Atacora"
+          ],
+          [
+            "3",
+            "Atlantique"
+          ],
+          [
+            "4",
+            "Borgou"
+          ],
+          [
+            "5",
+            "Collines"
+          ],
+          [
+            "6",
+            "Couffo"
+          ],
+          [
+            "7",
+            "Donga"
+          ],
+          [
+            "8",
+            "Littoral"
+          ],
+          [
+            "9",
+            "Mono"
+          ],
+          [
+            "10",
+            "Ouémé"
+          ],
+          [
+            "11",
+            "Plateau"
+          ],
+          [
+            "12",
+            "Zou"
+          ]
+        ],
+        "default": "3",
+        "or_note": "Atacora ×2,3 ; Mono/Donga/Littoral protecteurs"
+      },
+      {
+        "key": "electricite",
+        "feature": "electricite",
+        "label": "Accès à l'électricité",
+        "type": "binary",
+        "default": 1,
+        "or": 0.495,
+        "p": 0.0
+      },
+      {
+        "key": "indice_logement",
+        "feature": "indice_logement",
+        "label": "Qualité du logement (0–3)",
+        "type": "slider",
+        "min": 0,
+        "max": 3,
+        "step": 1,
+        "default": 3,
+        "or": 0.805,
+        "p": 0.0
+      },
+      {
+        "key": "toilette_amelioree",
+        "feature": "toilette_amelioree",
+        "label": "Toilettes améliorées",
+        "type": "binary",
+        "default": 0,
+        "or": 0.697,
+        "p": 0.012
+      }
+    ]
+  },
+  {
+    "capital": "Capital financier",
+    "icon": "💰",
+    "fields": [
+      {
+        "key": "log_depenses_alim",
+        "feature": "log_depenses_alim",
+        "label": "Dépenses alimentaires / mois",
+        "type": "number",
+        "min": 0,
+        "max": 3000000,
+        "default": 20000,
+        "unit": "FCFA",
+        "transform": "log1p",
+        "or": 0.852,
+        "p": 0.0
+      },
+      {
+        "key": "log_revenu",
+        "feature": "log_revenu",
+        "label": "Revenu mensuel du ménage",
+        "type": "number",
+        "min": 0,
+        "max": 6000000,
+        "default": 15000,
+        "unit": "FCFA",
+        "transform": "log1p",
+        "or": 0.966,
+        "p": 0.0406
+      },
+      {
+        "key": "diversification_revenus",
+        "feature": "diversification_revenus",
+        "label": "Nombre de sources de revenu",
+        "type": "slider",
+        "min": 0,
+        "max": 3,
+        "step": 1,
+        "default": 2,
+        "or": 0.823,
+        "p": 0.0361
+      },
+      {
+        "key": "activite_principale",
+        "cat": "activite_principale",
+        "label": "Activité principale",
+        "type": "select_cat",
+        "options": [
+          [
+            "Agriculture",
+            "Agriculture"
+          ],
+          [
+            "Elevage_peche",
+            "Élevage / pêche"
+          ],
+          [
+            "Commerce",
+            "Commerce"
+          ],
+          [
+            "Salarie_travail",
+            "Salarié / travail"
+          ],
+          [
+            "Transferts_aides",
+            "Transferts / aides"
+          ],
+          [
+            "Autre",
+            "Autre"
+          ]
+        ],
+        "default": "Agriculture",
+        "or_note": "Commerce : OR 0,63",
+        "or": 0.63,
+        "p": 0.0049
+      }
+    ]
+  },
+  {
+    "capital": "Capital naturel",
+    "icon": "🌱",
+    "fields": [
+      {
+        "key": "pratique_agriculture",
+        "feature": "pratique_agriculture",
+        "label": "Pratique l'agriculture",
+        "type": "binary",
+        "default": 1,
+        "or": 2.24,
+        "p": 0.0004
+      },
+      {
+        "key": "superficie_emblavee",
+        "feature": "superficie_emblavee",
+        "label": "Superficie cultivée (classe 0–6)",
+        "type": "slider",
+        "min": 0,
+        "max": 6,
+        "step": 1,
+        "default": 0,
+        "or": 0.84,
+        "p": 0.0
+      },
+      {
+        "key": "tlu",
+        "feature": "tlu",
+        "label": "Cheptel — TLU (0 = aucun)",
+        "type": "number",
+        "min": 0,
+        "max": 100,
+        "default": 0,
+        "step": 0.1,
+        "or": 0.929,
+        "p": 0.0001
+      },
+      {
+        "key": "securite_fonciere",
+        "feature": "securite_fonciere",
+        "label": "Sécurité foncière",
+        "type": "binary",
+        "default": 0,
+        "or": 0.666,
+        "p": 0.0048
+      }
+    ]
+  },
+  {
+    "capital": "Capital social / chocs",
+    "icon": "🤝",
+    "fields": [
+      {
+        "key": "vente_actifs_productifs",
+        "feature": "vente_actifs_productifs",
+        "label": "Vente d'actifs productifs",
+        "type": "binary",
+        "default": 0,
+        "or": 2.071,
+        "p": 0.0
+      },
+      {
+        "key": "assistance_recue",
+        "feature": "assistance_recue",
+        "label": "Assistance alimentaire reçue",
+        "type": "binary",
+        "default": 0,
+        "or": 1.72,
+        "p": 0.0003
+      },
+      {
+        "key": "capacite_relevement",
+        "feature": "capacite_relevement",
+        "label": "Capacité de relèvement (1–4)",
+        "type": "slider",
+        "min": 1,
+        "max": 4,
+        "step": 1,
+        "default": 4,
+        "or": 0.828,
+        "p": 0.036
+      }
+    ]
+  }
+]

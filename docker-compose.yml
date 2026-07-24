@@ -1,0 +1,45 @@
+# Déploiement complet — Baromètre Alimentaire
+# Lancer :  docker compose up --build
+#   Frontend : http://localhost:3000    ·    API : http://localhost:8000
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: barometre
+      POSTGRES_PASSWORD: change-me-in-prod
+      POSTGRES_DB: barometre
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U barometre"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: app/Dockerfile
+    environment:
+      DATABASE_URL: postgresql+psycopg2://barometre:change-me-in-prod@db:5432/barometre
+      AUTH_SECRET: ${AUTH_SECRET:-please-set-a-long-random-secret}
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+  web:
+    build:
+      context: ./webapp
+      dockerfile: Dockerfile
+      args:
+        # URL par laquelle le NAVIGATEUR joint l'API (adapter au domaine en prod)
+        NEXT_PUBLIC_API_URL: ${PUBLIC_API_URL:-http://localhost:8000}
+    depends_on:
+      - api
+    ports:
+      - "3000:3000"
+
+volumes:
+  pgdata:

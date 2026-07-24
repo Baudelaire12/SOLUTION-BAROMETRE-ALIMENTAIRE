@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Alerte Alimentaire Bénin — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#EEEFE7;
+    --surface:#F7F7F2;
+    --ink:#1C2321;
+    --ink-soft:#565C57;
+    --line:#C7CBBE;
+    --line-soft:#DBDDD1;
+    --alert:#B23A2E;
+    --alert-bg:#F4E3DF;
+    --ochre:#C98A2E;
+    --ochre-bg:#F2E7D3;
+    --amber:#8A6A1E;
+    --amber-bg:#EFE6CC;
+    --safe:#2E6B52;
+    --safe-bg:#DEE9E2;
+    --radius:3px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'IBM Plex Sans',sans-serif;
+    font-size:15px;
+    line-height:1.6;
+  }
+  .mono{font-family:'IBM Plex Mono',monospace}
+  a{color:inherit}
+  button{font-family:inherit;cursor:pointer;border:none;background:none}
+  .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+
+  /* ---- Nav ---- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:var(--paper);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    max-width:1120px;margin:0 auto;padding:16px 24px;
+    display:flex;align-items:center;justify-content:space-between;gap:24px;
+  }
+  .brand{display:flex;align-items:center;gap:10px}
+  .brand-mark{
+    width:26px;height:26px;border:1.5px solid var(--ink);border-radius:50%;
+    position:relative;flex:none;
+  }
+  .brand-mark::before,.brand-mark::after{
+    content:'';position:absolute;background:var(--ink);
+  }
+  .brand-mark::before{left:50%;top:2px;bottom:2px;width:1px;transform:translateX(-50%)}
+  .brand-mark::after{top:50%;left:2px;right:2px;height:1px;transform:translateY(-50%)}
+  .brand-text{font-family:'IBM Plex Mono',monospace;font-size:14px;font-weight:600;letter-spacing:0.01em}
+  .brand-sub{font-size:10px;color:var(--ink-soft);letter-spacing:0.06em;text-transform:uppercase;margin-top:1px}
+  nav{display:flex;gap:4px;align-items:center;flex-wrap:wrap}
+  .nav-btn{
+    font-family:'IBM Plex Mono',monospace;font-size:12px;letter-spacing:0.03em;
+    padding:8px 14px;color:var(--ink-soft);border-radius:var(--radius);
+    transition:background .15s, color .15s;
+  }
+  .nav-btn:hover{background:var(--surface);color:var(--ink)}
+  .nav-btn.active{background:var(--ink);color:var(--paper)}
+
+  /* ---- Layout ---- */
+  .view{display:none;max-width:1120px;margin:0 auto;padding:0 24px 80px}
+  .view.active{display:block}
+  section{padding:56px 0;border-bottom:1px solid var(--line-soft)}
+  section:last-child{border-bottom:none}
+  .eyebrow{
+    font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.08em;
+    text-transform:uppercase;color:var(--ink-soft);
+    display:flex;align-items:center;gap:8px;margin-bottom:14px;
+  }
+  .eyebrow::before{content:'';width:16px;height:1px;background:var(--ink-soft)}
+  h1,h2,h3{font-family:'IBM Plex Mono',monospace;font-weight:600;letter-spacing:-0.01em}
+  h1{font-size:38px;line-height:1.15}
+  h2{font-size:22px;margin-bottom:6px}
+  h3{font-size:15px}
+  p.lede{font-size:17px;color:var(--ink-soft);max-width:56ch;margin-top:14px}
+  .grid{display:grid;gap:14px}
+  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px}
+  .btn{
+    font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:0.02em;
+    padding:11px 20px;border-radius:var(--radius);border:1px solid var(--ink);
+  }
+  .btn-primary{background:var(--ink);color:var(--paper)}
+  .btn-ghost{background:transparent;color:var(--ink)}
+
+  /* ---- Hero ---- */
+  .hero{position:relative;padding-top:64px}
+  .hero-frame{
+    border:1px solid var(--line);border-radius:var(--radius);
+    padding:40px 32px;position:relative;background:var(--surface);
+    overflow:hidden;
+  }
+  .coord-corner{
+    position:absolute;font-family:'IBM Plex Mono',monospace;font-size:10px;
+    color:var(--ink-soft);letter-spacing:0.02em;
+  }
+  .coord-tl{top:12px;left:16px}
+  .coord-tr{top:12px;right:16px}
+  .coord-bl{bottom:12px;left:16px}
+  .coord-br{bottom:12px;right:16px}
+  .ticks{position:absolute;top:0;left:0;right:0;height:8px;
+    background-image:repeating-linear-gradient(90deg,var(--line) 0,var(--line) 1px,transparent 1px,transparent 40px);
+  }
+  .hero-stats{display:flex;gap:0;margin-top:36px;border-top:1px solid var(--line)}
+  .hero-stat{flex:1;padding:16px 0 0;border-right:1px solid var(--line)}
+  .hero-stat:last-child{border-right:none}
+  .hero-stat .num{font-family:'IBM Plex Mono',monospace;font-size:24px;font-weight:600}
+  .hero-stat .lbl{font-size:11px;color:var(--ink-soft);margin-top:2px}
+  .cta-row{display:flex;gap:10px;margin-top:28px;flex-wrap:wrap}
+
+  /* ---- Features ---- */
+  .feat-grid{grid-template-columns:repeat(3,1fr)}
+  .feat-card .icon{
+    width:30px;height:30px;border:1px solid var(--ink);border-radius:50%;
+    display:flex;align-items:center;justify-content:center;font-family:'IBM Plex Mono',monospace;
+    font-size:12px;margin-bottom:12px;
+  }
+  .feat-card p{font-size:13px;color:var(--ink-soft);margin-top:6px}
+
+  /* ---- Badges ---- */
+  .badge{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:3px 9px;border-radius:2px;display:inline-block}
+  .b-alert{background:var(--alert-bg);color:var(--alert)}
+  .b-ochre{background:var(--ochre-bg);color:var(--ochre)}
+  .b-amber{background:var(--amber-bg);color:var(--amber)}
+  .b-safe{background:var(--safe-bg);color:var(--safe)}
+
+  /* ---- Map view ---- */
+  .map-layout{display:grid;grid-template-columns:1fr 300px;gap:20px}
+  #map-svg-wrap{border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);padding:12px}
+  .legend-row{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--ink-soft);margin-bottom:6px}
+  .legend-dot{width:9px;height:9px;border-radius:50%;flex:none}
+  .detail-panel h3{margin-bottom:8px}
+  .stat-line{display:flex;justify-content:space-between;font-size:13px;padding:7px 0;border-bottom:1px solid var(--line-soft)}
+  .stat-line span:first-child{color:var(--ink-soft)}
+  .stat-line span:last-child{font-family:'IBM Plex Mono',monospace}
+
+  /* ---- Forms ---- */
+  .form-grid{grid-template-columns:repeat(2,1fr)}
+  label{font-size:12px;color:var(--ink-soft);display:block;margin-bottom:5px;font-family:'IBM Plex Mono',monospace;letter-spacing:0.01em}
+  select,input[type=range],input[type=number]{
+    width:100%;padding:9px 10px;border:1px solid var(--line);border-radius:var(--radius);
+    background:var(--paper);font-family:'IBM Plex Sans',sans-serif;font-size:14px;color:var(--ink);
+  }
+  .result-box{display:none;margin-top:24px;border-top:1px solid var(--line);padding-top:20px}
+  .result-num{font-family:'IBM Plex Mono',monospace;font-size:32px;font-weight:600}
+  .shap-row{display:flex;align-items:center;gap:10px;margin-bottom:7px;font-size:12px}
+  .shap-label{width:170px;color:var(--ink-soft)}
+  .shap-track{flex:1;height:12px;background:var(--paper);border-radius:2px;position:relative;border:1px solid var(--line-soft)}
+  .shap-fill{height:100%;border-radius:1px}
+  .shap-val{width:38px;text-align:right;font-family:'IBM Plex Mono',monospace}
+
+  /* ---- Dashboard ---- */
+  .kpi-grid{grid-template-columns:repeat(3,1fr)}
+  .kpi .num{font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600}
+  .kpi .lbl{font-size:12px;color:var(--ink-soft);margin-top:4px}
+  .alloc-row{display:flex;justify-content:space-between;padding:6px 0;border-bottom:1px solid var(--line-soft);font-size:13px}
+
+  footer{max-width:1120px;margin:0 auto;padding:24px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--ink-soft);font-family:'IBM Plex Mono',monospace}
+
+  @media(max-width:760px){
+    .feat-grid,.form-grid,.kpi-grid{grid-template-columns:1fr}
+    .map-layout{grid-template-columns:1fr}
+    h1{font-size:28px}
+    nav{width:100%;overflow-x:auto}
+  }
+  :focus-visible{outline:2px solid var(--alert);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <div>
+        <div class="brand-text">ALERTE ALIMENTAIRE — BÉNIN</div>
+        <div class="brand-sub">CIPMA · Chaire UNESCO</div>
+      </div>
+    </div>
+    <nav aria-label="Navigation principale">
+      <button class="nav-btn active" data-view="accueil">Accueil</button>
+      <button class="nav-btn" data-view="carte">Carte</button>
+      <button class="nav-btn" data-view="scoring">Scoring</button>
+      <button class="nav-btn" data-view="dashboard">Tableau de bord</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ ACCUEIL ============ -->
+<div class="view active" id="view-accueil">
+  <section class="hero">
+    <div class="eyebrow">Basé sur l'enquête AGVSAN 2017 · PAM / INSAE</div>
+    <div class="hero-frame">
+      <div class="ticks" aria-hidden="true"></div>
+      <span class="coord-tl mono">12.4°N</span>
+      <span class="coord-tr mono">3.9°E</span>
+      <span class="coord-bl mono">6.0°N</span>
+      <span class="coord-br mono">0.8°E</span>
+      <h1>Situer le risque d'insécurité<br>alimentaire, ménage par ménage.</h1>
+      <p class="lede">Un modèle prédictif (Logit, Random Forest, XGBoost) entraîné sur 14&nbsp;952 ménages, pour cibler les interventions humanitaires avec une précision géographique fine — jusqu'à la commune.</p>
+      <div class="cta-row">
+        <button class="btn btn-primary" data-view="carte">Voir la carte du risque</button>
+        <button class="btn btn-ghost" data-view="scoring">Scorer un ménage</button>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="num">77</div><div class="lbl">COMMUNES COUVERTES</div></div>
+        <div class="hero-stat"><div class="num">14 952</div><div class="lbl">MÉNAGES MODÉLISÉS</div></div>
+        <div class="hero-stat"><div class="num">0.89</div><div class="lbl">AUROC (XGBOOST)</div></div>
+        <div class="hero-stat"><div class="num">03</div><div class="lbl">ALGORITHMES COMPARÉS</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Fonctionnalités</div>
+    <h2>Trois usages, un seul modèle</h2>
+    <p class="lede" style="margin-bottom:24px">Chaque écran s'adresse à un moment différent de la décision — repérer une zone, évaluer un ménage, arbitrer un budget.</p>
+    <div class="grid feat-grid">
+      <div class="card feat-card">
+        <div class="icon mono">01</div>
+        <h3>Carte du risque</h3>
+        <p>Probabilité prédite agrégée par commune, avec autocorrélation spatiale (indice de Moran) pour repérer les poches de vulnérabilité.</p>
+      </div>
+      <div class="card feat-card">
+        <div class="icon mono">02</div>
+        <h3>Scoring individuel</h3>
+        <p>Évaluez un ménage sur le terrain à partir de ses caractéristiques socio-économiques, avec explication SHAP de chaque prédiction.</p>
+      </div>
+      <div class="card feat-card">
+        <div class="icon mono">03</div>
+        <h3>Aide à l'allocation</h3>
+        <p>Simulez la répartition d'un budget d'intervention sur les communes les plus à risque, par ordre de priorité.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Méthodologie</div>
+    <h2>Ce que mesure le modèle</h2>
+    <p class="lede">La variable prédite est le Score de Consommation Alimentaire (SCA), l'indicateur standardisé du PAM, dichotomisé au seuil de 42 points. Trois modèles ont été comparés sur échantillon test : régression logistique, Random Forest, XGBoost — validation croisée par grappes pour respecter la structure du plan de sondage AGVSAN.</p>
+  </section>
+</div>
+
+<!-- ============ CARTE ============ -->
+<div class="view" id="view-carte">
+  <section style="border-bottom:none;padding-bottom:24px">
+    <div class="eyebrow">Module 01 — Cartographie</div>
+    <h2>Risque prédit par département</h2>
+    <p class="lede" style="margin-bottom:24px">Cercles proportionnels sur les chefs-lieux — la version de production affichera un choroplèthe communal à partir du shapefile IGN Bénin.</p>
+    <div class="map-layout">
+      <div id="map-svg-wrap">
+        <div id="map"></div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap;margin-top:14px;padding-top:12px;border-top:1px solid var(--line-soft)">
+          <div class="legend-row"><span class="legend-dot" style="background:#2E6B52"></span>Faible</div>
+          <div class="legend-row"><span class="legend-dot" style="background:#4C6FA5"></span>Modéré</div>
+          <div class="legend-row"><span class="legend-dot" style="background:#C98A2E"></span>Élevé</div>
+          <div class="legend-row"><span class="legend-dot" style="background:#B23A2E"></span>Très élevé</div>
+        </div>
+      </div>
+      <div class="card detail-panel" id="map-detail">
+        <h3>Détail</h3>
+        <p style="font-size:13px;color:var(--ink-soft)">Cliquez sur un département pour afficher ses statistiques.</p>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ SCORING ============ -->
+<div class="view" id="view-scoring">
+  <section style="border-bottom:none;padding-bottom:24px">
+    <div class="eyebrow">Module 02 — Scoring individuel</div>
+    <h2>Évaluer un ménage</h2>
+    <p class="lede" style="margin-bottom:24px">Renseignez les caractéristiques observables du ménage pour obtenir une probabilité d'insécurité alimentaire et son explication.</p>
+
+    <div class="card">
+      <div class="grid form-grid">
+        <div>
+          <label for="sc-milieu">Milieu de résidence</label>
+          <select id="sc-milieu"><option value="0">Urbain</option><option value="1" selected>Rural</option></select>
+        </div>
+        <div>
+          <label for="sc-edu">Niveau d'instruction du chef de ménage</label>
+          <select id="sc-edu"><option value="0" selected>Aucun</option><option value="1">Primaire</option><option value="2">Secondaire et plus</option></select>
+        </div>
+        <div>
+          <label for="sc-eau">Accès à l'eau améliorée</label>
+          <select id="sc-eau"><option value="0">Non</option><option value="1" selected>Oui</option></select>
+        </div>
+        <div>
+          <label for="sc-div">Diversification des revenus</label>
+          <select id="sc-div"><option value="0" selected>1 source</option><option value="1">2 sources</option><option value="2">3 sources et plus</option></select>
+        </div>
+      </div>
+      <div style="margin-top:16px">
+        <label for="sc-taille">Taille du ménage — <span id="sc-taille-out" class="mono">6</span> membres</label>
+        <input type="range" id="sc-taille" min="1" max="15" value="6" step="1">
+      </div>
+      <div style="margin-top:22px">
+        <button class="btn btn-primary" id="sc-btn">Calculer le risque →</button>
+      </div>
+
+      <div class="result-box" id="sc-result">
+        <div style="display:flex;align-items:baseline;gap:14px;margin-bottom:20px">
+          <div class="result-num" id="sc-proba">—</div>
+          <span class="badge" id="sc-badge"></span>
+        </div>
+        <div class="eyebrow" style="margin-bottom:12px">Contribution des facteurs (SHAP, illustratif)</div>
+        <div id="sc-shap"></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ============ DASHBOARD ============ -->
+<div class="view" id="view-dashboard">
+  <section style="border-bottom:none;padding-bottom:24px">
+    <div class="eyebrow">Module 03 — Tableau de bord</div>
+    <h2>Vue nationale et allocation</h2>
+    <div class="grid kpi-grid" style="margin:20px 0">
+      <div class="card kpi"><div class="num">46.2%</div><div class="lbl">MÉNAGES À RISQUE (NATIONAL)</div></div>
+      <div class="card kpi"><div class="num">14 / 77</div><div class="lbl">COMMUNES EN RISQUE TRÈS ÉLEVÉ</div></div>
+      <div class="card kpi"><div class="num">Alibori</div><div class="lbl">DÉPARTEMENT LE PLUS VULNÉRABLE</div></div>
+    </div>
+
+    <div class="card" style="margin-bottom:16px">
+      <div class="eyebrow" style="margin-bottom:14px">Top 10 des communes les plus à risque</div>
+      <div style="position:relative;height:400px">
+        <canvas id="rankChart" role="img" aria-label="Classement des 10 communes les plus à risque, de Kandi à Djougou, entre 68 et 84 pourcent">Kandi 84, Karimama 81, Malanville 79, Ségbana 76, Kérou 74, Boukoumbé 72, Cobly 71, Matéri 70, Copargo 69, Djougou 68</canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="eyebrow" style="margin-bottom:14px">Simulateur d'allocation budgétaire</div>
+      <div style="display:flex;gap:10px;align-items:end">
+        <div style="flex:1">
+          <label for="db-budget">Nombre de ménages ciblables</label>
+          <input type="number" id="db-budget" value="5000" step="500">
+        </div>
+        <button class="btn btn-primary" id="db-btn">Simuler →</button>
+      </div>
+      <div id="db-out" style="margin-top:16px"></div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  <span>CIPMA – Chaire UNESCO · Université d'Abomey-Calavi</span>
+  <span>Données AGVSAN 2017 · Prototype non déployé</span>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/topojson/3.0.2/topojson.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script>
+/* ---------- Navigation ---------- */
+document.querySelectorAll('[data-view]').forEach(el=>{
+  el.addEventListener('click', ()=>{
+    const v = el.getAttribute('data-view');
+    document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+    document.getElementById('view-'+v).classList.add('active');
+    document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active', b.getAttribute('data-view')===v));
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+});
+
+/* ---------- Carte ---------- */
+const depts = [
+ {n:"Alibori", cap:"Kandi", lon:2.938, lat:11.134, r:78, menages:"18 400"},
+ {n:"Atacora", cap:"Natitingou", lon:1.380, lat:10.304, r:74, menages:"21 100"},
+ {n:"Donga", cap:"Djougou", lon:1.666, lat:9.708, r:69, menages:"14 700"},
+ {n:"Borgou", cap:"Parakou", lon:2.615, lat:9.337, r:58, menages:"26 300"},
+ {n:"Collines", cap:"Savalou", lon:1.979, lat:7.929, r:47, menages:"16 900"},
+ {n:"Zou", cap:"Abomey", lon:1.992, lat:7.182, r:41, menages:"22 200"},
+ {n:"Plateau", cap:"Pobè", lon:2.667, lat:6.973, r:44, menages:"12 500"},
+ {n:"Couffo", cap:"Aplahoué", lon:1.683, lat:6.932, r:52, menages:"19 000"},
+ {n:"Mono", cap:"Lokossa", lon:1.716, lat:6.638, r:38, menages:"14 100"},
+ {n:"Atlantique", cap:"Ouidah", lon:2.085, lat:6.361, r:24, menages:"31 600"},
+ {n:"Littoral", cap:"Cotonou", lon:2.391, lat:6.365, r:18, menages:"27 800"},
+ {n:"Ouémé", cap:"Porto-Novo", lon:2.605, lat:6.497, r:29, menages:"23 400"}
+];
+function riskColor(r){ return r>=65?'#B23A2E':r>=45?'#C98A2E':r>=25?'#4C6FA5':'#2E6B52'; }
+function riskLabel(r){ return r>=65?'Très élevé':r>=45?'Élevé':r>=25?'Modéré':'Faible'; }
+
+const mapWidth = 460, mapHeight = 500;
+const svg = d3.select('#map').append('svg')
+  .attr('viewBox', `0 0 ${mapWidth} ${mapHeight}`).attr('width','100%').style('display','block');
+
+d3.json('https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json').then(world=>{
+  const countries = topojson.feature(world, world.objects.countries);
+  const benin = countries.features.find(f=>f.id==='204');
+  const projection = d3.geoMercator().fitExtent([[24,24],[mapWidth-24,mapHeight-24]], benin);
+  const path = d3.geoPath(projection);
+  svg.append('path').attr('d', path(benin))
+    .attr('fill', '#F7F7F2').attr('stroke', '#C7CBBE').attr('stroke-width', 1);
+  const g = svg.append('g');
+  depts.forEach(d=>{
+    const [x,y] = projection([d.lon, d.lat]);
+    g.append('circle')
+      .attr('cx', x).attr('cy', y).attr('r', 6 + d.r/9)
+      .attr('fill', riskColor(d.r)).attr('fill-opacity', 0.85)
+      .attr('stroke', riskColor(d.r))
+      .style('cursor','pointer')
+      .on('click', ()=>{
+        document.getElementById('map-detail').innerHTML = `
+          <h3>${d.n}</h3>
+          <p style="font-size:12px;color:var(--ink-soft);margin-bottom:14px">Chef-lieu : ${d.cap}</p>
+          <div class="stat-line"><span>Risque prédit</span><span>${d.r}%</span></div>
+          <div class="stat-line"><span>Classe</span><span class="badge ${d.r>=65?'b-alert':d.r>=45?'b-ochre':d.r>=25?'b-amber':'b-safe'}">${riskLabel(d.r)}</span></div>
+          <div class="stat-line"><span>Ménages enquêtés (approx.)</span><span>${d.menages}</span></div>
+        `;
+      });
+    g.append('text').attr('x', x).attr('y', y-11).attr('text-anchor','middle')
+      .attr('font-size','9.5px').attr('font-family','IBM Plex Mono').attr('fill', '#565C57')
+      .text(d.n);
+  });
+});
+
+/* ---------- Scoring ---------- */
+document.getElementById('sc-taille').oninput = e => document.getElementById('sc-taille-out').textContent = e.target.value;
+document.getElementById('sc-btn').addEventListener('click', ()=>{
+  const milieu = +document.getElementById('sc-milieu').value;
+  const edu = +document.getElementById('sc-edu').value;
+  const eau = +document.getElementById('sc-eau').value;
+  const div = +document.getElementById('sc-div').value;
+  const taille = +document.getElementById('sc-taille').value;
+  let score = 0.35 + milieu*0.18 - edu*0.09 - eau*0.12 - div*0.08 + Math.max(0,taille-5)*0.015;
+  score = Math.min(0.95, Math.max(0.05, score));
+  const pct = Math.round(score*100);
+  const atRisk = pct>=50;
+  document.getElementById('sc-proba').textContent = pct+'%';
+  const badge = document.getElementById('sc-badge');
+  badge.textContent = atRisk ? 'Insécurité alimentaire' : 'Sécurité alimentaire';
+  badge.className = 'badge ' + (atRisk?'b-alert':'b-safe');
+  const contribs = [
+    {n:'Milieu de résidence', v: milieu*18},
+    {n:"Niveau d'instruction", v: -edu*9},
+    {n:"Accès à l'eau", v: -eau*12},
+    {n:'Diversification revenus', v: -div*8},
+    {n:'Taille du ménage', v: Math.max(0,taille-5)*1.5}
+  ];
+  const maxAbs = Math.max(...contribs.map(c=>Math.abs(c.v)),1);
+  document.getElementById('sc-shap').innerHTML = contribs.map(c=>{
+    const w = Math.abs(c.v)/maxAbs*100;
+    const col = c.v>=0 ? '#B23A2E':'#2E6B52';
+    return `<div class="shap-row">
+      <span class="shap-label">${c.n}</span>
+      <div class="shap-track"><div class="shap-fill" style="width:${w}%;background:${col}"></div></div>
+      <span class="shap-val" style="color:${col}">${c.v>=0?'+':''}${c.v.toFixed(1)}</span>
+    </div>`;
+  }).join('');
+  document.getElementById('sc-result').style.display = 'block';
+});
+
+/* ---------- Dashboard ---------- */
+const communes = ["Kandi","Karimama","Malanville","Ségbana","Kérou","Boukoumbé","Cobly","Matéri","Copargo","Djougou"];
+const valeurs = [84,81,79,76,74,72,71,70,69,68];
+const communeDept = {"Kandi":"Alibori","Karimama":"Alibori","Malanville":"Alibori","Ségbana":"Alibori","Kérou":"Atacora","Boukoumbé":"Atacora","Cobly":"Atacora","Matéri":"Atacora","Copargo":"Donga","Djougou":"Donga"};
+const menagesParCommune = {"Kandi":18000,"Karimama":9000,"Malanville":15000,"Ségbana":7000,"Kérou":11000,"Boukoumbé":8000,"Cobly":6000,"Matéri":10000,"Copargo":5000,"Djougou":22000};
+
+new Chart(document.getElementById('rankChart'), {
+  type:'bar',
+  data:{ labels:communes, datasets:[{ data:valeurs, backgroundColor:'#B23A2E', borderRadius:2, barThickness:16 }] },
+  options:{
+    indexAxis:'y', responsive:true, maintainAspectRatio:false,
+    plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label:c=>c.raw+'% à risque' } } },
+    scales:{
+      x:{ max:100, grid:{color:'#DBDDD1'}, ticks:{color:'#565C57', font:{family:'IBM Plex Mono',size:11}, callback:v=>v+'%'} },
+      y:{ grid:{display:false}, ticks:{color:'#1C2321', font:{family:'IBM Plex Mono',size:11}} }
+    }
+  }
+});
+
+document.getElementById('db-btn').addEventListener('click', ()=>{
+  const budget = +document.getElementById('db-budget').value;
+  let restant = budget;
+  const lignes = [];
+  for(const c of communes){
+    if(restant<=0) break;
+    const dispo = menagesParCommune[c];
+    const pris = Math.min(dispo, restant);
+    restant -= pris;
+    lignes.push(`<div class="alloc-row"><span>${c} <span class="mono" style="color:var(--ink-soft)">(${communeDept[c]})</span></span><span class="mono">${pris.toLocaleString()}</span></div>`);
+  }
+  document.getElementById('db-out').innerHTML = `<div class="eyebrow" style="margin-bottom:6px">Répartition suggérée</div>${lignes.join('')}`;
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+Modele,AUROC,IC_bas,IC_haut,Accuracy,Recall,Precision,F1,Brier
+Regression Logistique,0.7725,0.7505,0.7944,0.6846,0.7295,0.2028,0.3174,0.2017
+Random Forest,0.8011,0.7804,0.8218,0.9021,0.2195,0.5323,0.3108,0.0884
+XGBoost,0.7939,0.7729,0.815,0.7465,0.6807,0.2362,0.3507,0.1616

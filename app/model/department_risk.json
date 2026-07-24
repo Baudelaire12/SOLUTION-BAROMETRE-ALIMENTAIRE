@@ -1,0 +1,74 @@
+[
+  {
+    "code": 2,
+    "departement": "Atacora",
+    "risk_pct": 21.5,
+    "n": 1237
+  },
+  {
+    "code": 6,
+    "departement": "Couffo",
+    "risk_pct": 17.3,
+    "n": 1140
+  },
+  {
+    "code": 5,
+    "departement": "Collines",
+    "risk_pct": 14.0,
+    "n": 1099
+  },
+  {
+    "code": 12,
+    "departement": "Zou",
+    "risk_pct": 11.8,
+    "n": 1358
+  },
+  {
+    "code": 11,
+    "departement": "Plateau",
+    "risk_pct": 10.4,
+    "n": 960
+  },
+  {
+    "code": 1,
+    "departement": "Alibori",
+    "risk_pct": 8.4,
+    "n": 1276
+  },
+  {
+    "code": 10,
+    "departement": "Ouémé",
+    "risk_pct": 7.9,
+    "n": 1817
+  },
+  {
+    "code": 4,
+    "departement": "Borgou",
+    "risk_pct": 7.8,
+    "n": 1789
+  },
+  {
+    "code": 3,
+    "departement": "Atlantique",
+    "risk_pct": 7.1,
+    "n": 1499
+  },
+  {
+    "code": 9,
+    "departement": "Mono",
+    "risk_pct": 6.0,
+    "n": 819
+  },
+  {
+    "code": 7,
+    "departement": "Donga",
+    "risk_pct": 5.8,
+    "n": 840
+  },
+  {
+    "code": 8,
+    "departement": "Littoral",
+    "risk_pct": 1.7,
+    "n": 1118
+  }
+]

@@ -1,0 +1,192 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  --font-heading: var(--font-fraunces);
+  /* Échelle de risque (fixe dans les deux modes) */
+  --color-risk-faible: var(--risk-faible);
+  --color-risk-modere: var(--risk-modere);
+  --color-risk-eleve: var(--risk-eleve);
+  --color-risk-tres: var(--risk-tres);
+  --color-positive: var(--positive);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --animate-shimmer-slide: shimmer-slide var(--speed) ease-in-out infinite alternate;
+  --animate-spin-around: spin-around calc(var(--speed) * 2) infinite linear;
+  @keyframes shimmer-slide { to { transform: translate(calc(100cqw - 100%), 0); } }
+  @keyframes spin-around {
+    0% { transform: translateZ(0) rotate(0); }
+    15%, 35% { transform: translateZ(0) rotate(90deg); }
+    65%, 85% { transform: translateZ(0) rotate(270deg); }
+    100% { transform: translateZ(0) rotate(360deg); }
+  }
+  --animate-marquee: marquee var(--duration) infinite linear;
+  --animate-marquee-vertical: marquee-vertical var(--duration) linear infinite;
+  @keyframes marquee { from { transform: translateX(0);} to { transform: translateX(calc(-100% - var(--gap)));}}
+  @keyframes marquee-vertical { from { transform: translateY(0);} to { transform: translateY(calc(-100% - var(--gap)));}}
+  --animate-aurora: aurora 60s linear infinite;
+  @keyframes aurora {
+    0% { background-position: 50% 50%, 50% 50%; }
+    100% { background-position: 350% 50%, 350% 50%; }
+  }
+}
+
+/* ===== Palette éditoriale terracotta — clair ===== */
+:root {
+  --background: #fbf8f3;
+  --foreground: #241e18;
+  --card: #ffffff;
+  --card-foreground: #241e18;
+  --popover: #ffffff;
+  --popover-foreground: #241e18;
+  --primary: #b23a1e;
+  --primary-foreground: #fdf6f1;
+  --secondary: #f0e9df;
+  --secondary-foreground: #4a3f35;
+  --muted: #f1ebe2;
+  --muted-foreground: #6e6357;
+  --accent: #efe7db;
+  --accent-foreground: #3a3128;
+  --destructive: #b3271a;
+  --border: #e7dfd3;
+  --input: #e7dfd3;
+  --ring: #b23a1e;
+  --chart-1: #e9c46a;
+  --chart-2: #e28d3a;
+  --chart-3: #cb5a2c;
+  --chart-4: #9e2b18;
+  --chart-5: #2f6b57;
+  --radius: 0.7rem;
+  /* risque + positif (identiques en clair/sombre) */
+  --risk-faible: #2f6b57;
+  --risk-modere: #e0a53c;
+  --risk-eleve: #d1712f;
+  --risk-tres: #9e2b18;
+  --positive: #2f6b57;
+  --sidebar: #fdfbf7;
+  --sidebar-foreground: #241e18;
+  --sidebar-primary: #b23a1e;
+  --sidebar-primary-foreground: #fdf6f1;
+  --sidebar-accent: #efe7db;
+  --sidebar-accent-foreground: #3a3128;
+  --sidebar-border: #e7dfd3;
+  --sidebar-ring: #b23a1e;
+}
+
+/* ===== sombre ===== */
+.dark {
+  --background: #17120f;
+  --foreground: #f2eae0;
+  --card: #201814;
+  --card-foreground: #f2eae0;
+  --popover: #201814;
+  --popover-foreground: #f2eae0;
+  --primary: #d9683f;
+  --primary-foreground: #1a120e;
+  --secondary: #2b211b;
+  --secondary-foreground: #ede3d7;
+  --muted: #2a211b;
+  --muted-foreground: #b0a292;
+  --accent: #322620;
+  --accent-foreground: #f2eae0;
+  --destructive: #e4593f;
+  --border: #392c24;
+  --input: #3a2d25;
+  --ring: #d9683f;
+  --chart-1: #e9c46a;
+  --chart-2: #e28d3a;
+  --chart-3: #cb5a2c;
+  --chart-4: #c0442c;
+  --chart-5: #4c9a80;
+  --risk-faible: #4c9a80;
+  --risk-modere: #e0a53c;
+  --risk-eleve: #d1712f;
+  --risk-tres: #c0442c;
+  --positive: #4c9a80;
+  --sidebar: #201814;
+  --sidebar-foreground: #f2eae0;
+  --sidebar-primary: #d9683f;
+  --sidebar-primary-foreground: #1a120e;
+  --sidebar-accent: #322620;
+  --sidebar-accent-foreground: #f2eae0;
+  --sidebar-border: #392c24;
+  --sidebar-ring: #d9683f;
+}
+
+@layer base {
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; font-feature-settings: "ss01", "cv01", "tnum"; }
+  html { @apply font-sans; scroll-behavior: smooth; }
+  h1, h2, h3, .font-heading { font-family: var(--font-fraunces), Georgia, serif; }
+  ::selection { background: color-mix(in oklab, var(--primary) 22%, transparent); }
+  .tabular { font-variant-numeric: tabular-nums; }
+}
+
+@keyframes kenburns {
+  0%   { transform: scale(1) translate(0, 0); }
+  100% { transform: scale(1.14) translate(-2%, -3%); }
+}
+
+/* Grain subtil + fond éditorial */
+.bg-editorial {
+  background-image:
+    radial-gradient(120% 80% at 100% 0%, color-mix(in oklab, var(--primary) 7%, transparent), transparent 60%),
+    radial-gradient(90% 60% at 0% 100%, color-mix(in oklab, var(--chart-5) 6%, transparent), transparent 55%);
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+}
+
+/* ===== Impression du rapport (PDF via navigateur) ===== */
+@media print {
+  @page { size: A4; margin: 15mm 14mm; }
+  .no-print { display: none !important; }
+  html, body { background: #fff !important; }
+  .bg-editorial { background: #fff !important; }
+  main { padding: 0 !important; max-width: none !important; }
+  .report { border: none !important; box-shadow: none !important; margin: 0 !important;
+    max-width: none !important; width: 100% !important; background: #fff !important; }
+  .report-section { break-inside: avoid; }
+  .page-break { break-before: page; }
+  a { text-decoration: none !important; color: inherit !important; }
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}

@@ -1,0 +1,5 @@
+Modele,McFadden,Cox-Snell,Nagelkerke
+Regression Logistique (test recalibré),0.147,0.091,0.191
+Random Forest (test recalibré),0.181,0.111,0.232
+XGBoost (test recalibré),0.174,0.107,0.224
+"Régression Logistique (in-sample, éq. 14)",0.171,0.103,0.219
